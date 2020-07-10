@@ -1,0 +1,14 @@
+package org.kie.kogito.queries;
+unit DMNValidationUnit1;
+
+import org.kie.kogito.queries.LoanApplication
+
+rule MyValidationRule when
+    $l: /loanApplications[ applicant.age >= 20, deposit < 1000, amount <= 2000 ]
+then
+    modify($l) { setApproved(true) };
+end
+
+query Query1
+    $l: /loanApplications[ approved ]
+end
