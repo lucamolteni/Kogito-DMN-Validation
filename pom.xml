@@ -11,6 +11,10 @@
   <artifactId>kogito-dmn-validator</artifactId>
   <name>Kogito DMN Validator</name>
 
+  <properties>
+    <license.failIfMissing>false</license.failIfMissing>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>

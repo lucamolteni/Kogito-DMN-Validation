@@ -1,4 +1,4 @@
-/**
+/*
  *  Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,10 @@
  */
 package org.kie.dmn.validation;
 
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -22,6 +26,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import org.kie.dmn.api.core.DMNMessage;
 import org.kie.kogito.rules.RuleUnit;
 import org.kie.kogito.rules.RuleUnitInstance;
 import org.kie.kogito.rules.units.SessionData;
@@ -36,12 +41,14 @@ public class ValidationResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public String validate(String payload) {
+
         SessionData memory = new SessionData();
 
-//        memory.add(new Person(name, age));
-
         RuleUnitInstance<SessionData> instance = ruleUnit.createInstance(memory);
-        instance.fire();
-        return "Ciao";
+
+        DMNValidatorImpl dmnValidator = new DMNValidatorImpl(Collections.emptyList(), instance, memory);
+        List<DMNMessage> validate = dmnValidator.validate(new StringReader(payload));
+
+        return validate.stream().map(Object::toString).collect(Collectors.joining());
     }
 }

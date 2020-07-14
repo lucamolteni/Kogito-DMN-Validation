@@ -1,0 +1,12 @@
+package org.kie.dmn.validation.DMNv1x;
+
+import org.kie.dmn.validation.SetGlobal;
+
+rule SimulateGlobal
+salience 9999
+when
+     $sg : SetGlobal( $globalName: globalName, $payload : payload)
+then
+     kcontext.getKieRuntime().setGlobal($globalName, $payload);
+     retract($sg);
+end
