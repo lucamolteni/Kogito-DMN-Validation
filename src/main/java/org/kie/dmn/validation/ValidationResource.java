@@ -24,6 +24,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.kie.dmn.api.core.DMNMessage;
@@ -40,6 +41,7 @@ public class ValidationResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.TEXT_PLAIN)
     public String validate(String payload) {
 
         SessionData memory = new SessionData();
@@ -49,6 +51,7 @@ public class ValidationResource {
         DMNValidatorImpl dmnValidator = new DMNValidatorImpl(Collections.emptyList(), instance, memory);
         List<DMNMessage> validate = dmnValidator.validate(new StringReader(payload));
 
-        return validate.stream().map(Object::toString).collect(Collectors.joining());
+        String collect = validate.stream().map(Object::toString).collect(Collectors.joining());
+        return String.format("Messages: %s", collect);
     }
 }

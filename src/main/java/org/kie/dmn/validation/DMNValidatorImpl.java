@@ -142,7 +142,7 @@ public class DMNValidatorImpl implements DMNValidator {
         ChainedProperties localChainedProperties = new ChainedProperties();
         this.dmnProfiles.addAll(DMNAssemblerService.getDefaultDMNProfiles(localChainedProperties));
         this.dmnProfiles.addAll(dmnProfiles);
-        final ClassLoader classLoader = this.kieContainer.isPresent() ? this.kieContainer.get().getClassLoader() : ClassLoaderUtil.findDefaultClassLoader();
+        final ClassLoader classLoader = ClassLoaderUtil.findDefaultClassLoader();
         this.dmnCompilerConfig = DMNAssemblerService.compilerConfigWithKModulePrefs(classLoader, localChainedProperties, this.dmnProfiles, (DMNCompilerConfigurationImpl) DMNFactory.newCompilerConfiguration());
         dmnDTValidator = new DMNDTAnalyser(this.dmnProfiles);
     }
@@ -509,10 +509,6 @@ public class DMNValidatorImpl implements DMNValidator {
     }
 
     private List<DMNMessage> validateModel(Definitions dmnModel, List<Definitions> otherModel_Definitions) {
-        if (!kieContainer.isPresent()) {
-            return failedInitMsg;
-        }
-
         MessageReporter reporter = new MessageReporter();
 
         memory.add(new SetGlobal("reporter", reporter));
