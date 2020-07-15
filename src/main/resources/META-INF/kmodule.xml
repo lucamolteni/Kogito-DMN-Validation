@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule" 
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <kbase name="validationKB" packages="org.kie.dmn.validation">
+  <kbase name="kbase_DMNv1x" default="false" packages="org.kie.dmn.validation.DMNv1x" />
+  <kbase name="validationKB" includes="kbase_DMNv1x" packages="org.kie.dmn.validation,org.kie.dmn.validation.DMNv1x,org.kie.dmn.validation,org.kie.dmn.validation.DMNv1_1">
     <ksession name="validationKS" default="true" />
   </kbase>
 </kmodule>
