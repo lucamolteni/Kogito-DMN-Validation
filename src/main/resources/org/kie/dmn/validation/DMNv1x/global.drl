@@ -8,4 +8,5 @@ when
      $sg : SetGlobal( $globalName: globalName, $payload : payload)
 then
      kcontext.getKieRuntime().setGlobal($globalName, $payload);
+     retract($sg);
 end
